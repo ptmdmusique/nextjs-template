@@ -10,6 +10,7 @@ This template includes:
 - [ESLint](https://eslint.org/)
 - [Recoil](https://recoiljs.org/)
 - [React i18next](https://react.i18next.com/)
+- [React Query](https://tanstack.com/query/latest/)
 
 About "tui":
 

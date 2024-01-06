@@ -1,21 +1,27 @@
-"use client"; // ! i18next requires this to be a client side component
+"use client"; // ! this is required for any hooks to work
 
 import { SupportedLanguage, supportedLanguages } from "@/data/i18n";
 import { useManageLocale } from "@/hooks/useManageLocale";
 import { initializeI18N } from "@/loaders/i18n";
+import { queryClient } from "@/loaders/react-query";
 import { useI18NState } from "@/stores/i18n";
 import Image from "next/image";
-import { ReactNode } from "react";
+import { HTMLProps, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { QueryClientProvider } from "react-query";
 import { RecoilRoot } from "recoil";
+import cx from "classnames";
+import { useTestReactQuery } from "@/hooks/useTestReactQuery";
 
 initializeI18N();
 
 export default function Home() {
   return (
-    <RecoilRoot>
-      <HomeContent />
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <HomeContent />
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 }
 
@@ -35,23 +41,34 @@ const HomeContent = () => {
       <Logo />
 
       <div>
-        <div className="group rounded-lg border border-transparent px-5 py-4 lg:max-w-5xl lg:w-full transition-colors">
-          <Title>Template includes</Title>
+        <div className="grid text-center lg:max-w-5xl lg:w-full lg:grid-cols-2 lg:text-left">
+          <div className="rounded-lg border border-transparent px-5 py-4 lg:max-w-5xl lg:w-full transition-colors">
+            <Title>Template includes</Title>
 
-          <ul className="list-disc">
-            <ListItem>Tailwind CSS</ListItem>
-            <ListItem>react-i18next</ListItem>
-            <ListItem>React Recoil</ListItem>
-          </ul>
+            <ul className="list-disc">
+              <ListItem>Tailwind CSS</ListItem>
+              <ListItem>react-i18next</ListItem>
+              <ListItem>React Recoil</ListItem>
+              <ListItem>React Query</ListItem>
+            </ul>
+          </div>
+
+          <div className="rounded-lg border border-transparent px-5 py-4 lg:max-w-5xl lg:w-full transition-colors">
+            <Title>React Query Demo</Title>
+
+            <ReactQueryDemo />
+          </div>
         </div>
-
-        <NextJSStuff />
 
         <div className="group rounded-lg border border-transparent px-5 py-4 lg:max-w-5xl lg:w-full transition-colors">
           <Title>{t("language")}</Title>
 
           <LocaleSelector />
         </div>
+
+        <NextJSStuff />
+
+        <div className="mb-32 lg:mb-0" />
       </div>
     </main>
   );
@@ -109,7 +126,7 @@ const Logo = () => {
 
 const NextJSStuff = () => {
   return (
-    <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
+    <div className="grid text-center lg:max-w-5xl lg:w-full lg:grid-cols-4 lg:text-left">
       <a
         href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
         className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
@@ -178,5 +195,51 @@ const NextJSStuff = () => {
         </p>
       </a>
     </div>
+  );
+};
+
+const ReactQueryDemo = () => {
+  const { isFetching, data, refetch } = useTestReactQuery();
+
+  if (isFetching || !data) {
+    return <SkeletonLoader className="mt-2" />;
+  }
+
+  return (
+    <div>
+      <h3>Test data loaded!</h3>
+      <Button className="mt-3" onClick={() => refetch()}>
+        Reload
+      </Button>
+    </div>
+  );
+};
+
+const SkeletonLoader = ({ className }: { className?: string }) => {
+  return (
+    <div role="status" className={cx("max-w-sm animate-pulse", className)}>
+      <div className="h-4 bg-gray-200 rounded-full dark:bg-gray-700 w-48 mb-4" />
+      <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5" />
+      <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5" />
+      <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700" />
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+};
+
+const Button = (props: HTMLProps<HTMLButtonElement>) => {
+  return (
+    <button
+      {...props}
+      type="button"
+      className={cx(
+        "relative inline-flex items-center justify-center p-0.5 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800",
+        props.className,
+      )}
+    >
+      <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+        {props.children}
+      </span>
+    </button>
   );
 };
