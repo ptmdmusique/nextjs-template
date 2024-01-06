@@ -1,5 +1,16 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## About
+
+This project includes:
+
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Next.js](https://nextjs.org/)
+- [ESLint](https://eslint.org/)
+- [Recoil](https://recoiljs.org/)
+- [React i18next](https://react.i18next.com/)
+
 ## Getting Started
 
 First, run the development server:
@@ -34,3 +45,10 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## My notes
+
+1. Atoms
+
+- selector with param like react-easy-peasy computed which can be used for optimization like csv cell rendering. [Ref](https://recoiljs.org/docs/guides/asynchronous-data-queries#queries-with-parameters)
+- async atom should be used with `Suspense`. We can wrap `Suspense` as close as possible for custom loader (e.g: skeleton loader) [Ref](https://recoiljs.org/docs/guides/asynchronous-data-queries#asynchronous-example)
