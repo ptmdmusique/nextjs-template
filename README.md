@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## About
 
-This project includes:
+This template includes:
 
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -10,6 +10,11 @@ This project includes:
 - [ESLint](https://eslint.org/)
 - [Recoil](https://recoiljs.org/)
 - [React i18next](https://react.i18next.com/)
+
+About "tui":
+
+- My portfolio: https://duc-duchy.io/home
+- My component lib: https://github.com/ptmdmusique/ducduchy-react-components
 
 ## Getting Started
 
